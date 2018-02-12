@@ -1,0 +1,5 @@
+nx-admin:
+    - CN=Firstname Lastname, OU=Unknown, O=Unknown, L=Annapolis Junction, ST=MD, C=US
+nx-deploy:
+    - CN=Firstname Lastname, OU=Unknown, O=Unknown, L=Annapolis Junction, ST=MD, C=US
+    - CN=Firstname Lastname2, OU=Unknown, O=Unknown, L=Annapolis Junction, ST=MD, C=US
