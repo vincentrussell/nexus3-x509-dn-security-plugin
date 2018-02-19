@@ -3,6 +3,7 @@ package com.github.vincentrussell.nexus3.x509.dn.security.plugin;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.x509.X509AuthenticationInfo;
 import org.apache.shiro.authc.x509.X509AuthenticationToken;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -13,25 +14,42 @@ import org.eclipse.sisu.Description;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.nexus.security.anonymous.AnonymousPrincipalCollection;
-import org.sonatype.nexus.security.internal.AuthenticatingRealmImpl;
 import org.yaml.snakeyaml.Yaml;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.security.auth.x500.X500Principal;
 import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.util.*;
 
 /**
  * The Class X509DnAuthenticatingRealm.
  */
 @Singleton
-@Named(AuthenticatingRealmImpl.NAME)
+@Named(X509DnAuthenticatingRealm.NAME)
 @Description("X509-Dn Authenticating Realm")
 public class X509DnAuthenticatingRealm extends AbstractX509Realm {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(X509DnAuthenticatingRealm.class);
-    protected static final String NAME = "NexusAuthenticatingRealm";
+
+    public static final X509Certificate DEFAULT_ANONYMOUS_CERT = getDefaultAnonymousCert();
+
+    private static X509Certificate getDefaultAnonymousCert() {
+        try (InputStream inputStream = X509DnAuthenticatingRealm.class.getResourceAsStream("/certs/anonymous/anonymous.cer")) {
+            final CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+            final X509Certificate certificate = (X509Certificate) certFactory.generateCertificate(inputStream);
+            return certificate;
+        } catch (Throwable e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+
+    protected static final String NAME = "X509DnAuthenticatingRealm";
     protected static final String CONFIG_FILE = X509DnAuthenticatingRealm.class.getSimpleName() + ".config.file";
     public static final SimpleAuthorizationInfo ANONYMOUS_AUTHORIZATION_INFO = new SimpleAuthorizationInfo(Sets.newHashSet("nx-anonymous"));
     private final Yaml yaml = new Yaml();
@@ -39,7 +57,7 @@ public class X509DnAuthenticatingRealm extends AbstractX509Realm {
     private final Multimap<String, String> dnToRoleMultimap = HashMultimap.create();
 
     public X509DnAuthenticatingRealm() {
-        try (FileInputStream fileInputStream = new FileInputStream(System.getProperty(CONFIG_FILE))) {
+            try (FileInputStream fileInputStream = new FileInputStream(System.getProperty(CONFIG_FILE))) {
             Map<String, List<String>> compiledYaml = yaml.load(fileInputStream);
             generateMultiMaps(compiledYaml);
         } catch (Throwable e) {
