@@ -11,7 +11,7 @@
 
     <groupId>com.github.vincentrussell</groupId>
     <artifactId>nexus3-x509-dn-security-plugin</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
 
     <properties>
         <shiro-ext.version>1.1</shiro-ext.version>
