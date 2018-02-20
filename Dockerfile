@@ -6,12 +6,12 @@ RUN mvn clean package
 
 FROM sonatype/nexus3:3.7.1
 USER root
-RUN mkdir -p /opt/sonatype/nexus/system/com/github/vincentrussell/nexus3-x509-dn-security-plugin/0.1/
-COPY src/main/resources/certs /opt/sonatype/nexus/system/com/github/vincentrussell/nexus3-x509-dn-security-plugin/0.1/
-RUN mkdir -p /opt/sonatype/nexus/system/com/github/vincentrussell/nexus3-x509-dn-security-plugin/0.1/
-COPY --from=builder /build/target/nexus3-x509-dn-security-plugin-0.1.jar /opt/sonatype/nexus/system/com/github/vincentrussell/nexus3-x509-dn-security-plugin/0.1/
-#COPY /target/nexus3-x509-dn-security-plugin-0.1.jar /opt/sonatype/nexus/system/com/github/vincentrussell/nexus3-x509-dn-security-plugin/0.1/
-RUN echo "reference\:file\:com/github/vincentrussell/nexus3-x509-dn-security-plugin/0.1/nexus3-x509-dn-security-plugin-0.1.jar = 200" >> /opt/sonatype/nexus/etc/karaf/startup.properties
+RUN mkdir -p /opt/sonatype/nexus/system/com/github/vincentrussell/nexus3-x509-dn-security-plugin/1.0/
+COPY src/main/resources/certs /opt/sonatype/nexus/system/com/github/vincentrussell/nexus3-x509-dn-security-plugin/1.0/
+RUN mkdir -p /opt/sonatype/nexus/system/com/github/vincentrussell/nexus3-x509-dn-security-plugin/1.0/
+COPY --from=builder /build/target/nexus3-x509-dn-security-plugin-1.0.jar /opt/sonatype/nexus/system/com/github/vincentrussell/nexus3-x509-dn-security-plugin/1.0/
+#COPY /target/nexus3-x509-dn-security-plugin-1.0.jar /opt/sonatype/nexus/system/com/github/vincentrussell/nexus3-x509-dn-security-plugin/1.0/
+RUN echo "reference\:file\:com/github/vincentrussell/nexus3-x509-dn-security-plugin/1.0/nexus3-x509-dn-security-plugin-1.0.jar = 200" >> /opt/sonatype/nexus/etc/karaf/startup.properties
 RUN mkdir -p /opt/sonatype/nexus/etc/jetty/etc
 COPY src/main/resources/certs/keystore.jks /opt/sonatype/nexus/etc/jetty/etc/keystore.jks
 COPY src/main/resources/config/jetty.xml /opt/sonatype/nexus/etc/jetty
