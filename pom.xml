@@ -16,6 +16,18 @@
     <properties>
         <shiro-ext.version>1.1</shiro-ext.version>
         <jdk.version>1.7</jdk.version>
+        <public.serverId>sonatype-nexus-staging</public.serverId>
+        <public.nexusUrl>http://oss.sonatype.org/service/local/staging/deploy/maven2/</public.nexusUrl>
+
+        <public-release.serverId>sonatype-nexus-staging</public-release.serverId>
+        <public-release.url>
+            http://oss.sonatype.org/service/local/staging/deploy/maven2/
+        </public-release.url>
+
+        <public-snapshot.serverId>sonatype-nexus-snapshots</public-snapshot.serverId>
+        <public-snapshot.url>
+            http://oss.sonatype.org/content/repositories/snapshots
+        </public-snapshot.url>
     </properties>
 
     <name>nexus3-x509-dn-security-plugin</name>
