@@ -68,7 +68,6 @@ public class ExtendedX509AuthenticationFilterTest {
         ExtendedX509AuthenticationFilter child = PowerMockito.spy(extendedX509AuthenticationFilter);
         PowerMockito.doNothing().when(child, "skipThisFilterAndContinueOnChain", eq(mockHttpServletRequest), eq(mockHttpServletResponse), eq(filterChain));
         child.doFilterInternal(mockHttpServletRequest, mockHttpServletResponse, filterChain);
-        //PowerMockito.verifyPrivate(child, times(1)).invoke("filterInternalForX509Realm" , eq(mockHttpServletRequest), eq(mockHttpServletResponse), eq(filterChain));
         PowerMockito.verifyPrivate(child).invoke("skipThisFilterAndContinueOnChain" , mockHttpServletRequest, mockHttpServletResponse, filterChain);
     }
 
