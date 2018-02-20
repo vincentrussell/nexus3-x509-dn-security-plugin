@@ -11,7 +11,7 @@
 
     <groupId>com.github.vincentrussell</groupId>
     <artifactId>nexus3-x509-dn-security-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <properties>
         <shiro-ext.version>1.1</shiro-ext.version>
@@ -28,6 +28,10 @@
         <public-snapshot.url>
             http://oss.sonatype.org/content/repositories/snapshots
         </public-snapshot.url>
+        <staging.serverId>${public.serverId}</staging.serverId>
+        <staging.nexusUrl>${public-release.url}</staging.nexusUrl>
+        <staging.progressTimeout>15</staging.progressTimeout>
+
     </properties>
 
     <name>nexus3-x509-dn-security-plugin</name>
