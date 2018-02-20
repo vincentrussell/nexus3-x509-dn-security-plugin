@@ -9,7 +9,7 @@
         <version>3.2.1-01</version>
     </parent>
 
-    <groupId>com.gitub.vincentrussell</groupId>
+    <groupId>com.github.vincentrussell</groupId>
     <artifactId>nexus3-x509-dn-security-plugin</artifactId>
     <version>0.1</version>
 
