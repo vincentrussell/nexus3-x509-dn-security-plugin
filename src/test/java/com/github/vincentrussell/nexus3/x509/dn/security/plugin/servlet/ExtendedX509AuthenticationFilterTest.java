@@ -1,5 +1,6 @@
 package com.github.vincentrussell.nexus3.x509.dn.security.plugin.servlet;
 
+import com.github.vincentrussell.nexus3.x509.dn.security.plugin.TestAuthorizingRealm;
 import com.github.vincentrussell.nexus3.x509.dn.security.plugin.X509DnAuthenticatingRealm;
 import com.github.vincentrussell.nexus3.x509.dn.security.plugin.api.ExtendedX509AuthenticationToken;
 import com.google.common.collect.Lists;
@@ -19,8 +20,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import javax.security.auth.x500.X500Principal;
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import java.io.IOException;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -59,29 +58,29 @@ public class ExtendedX509AuthenticationFilterTest {
 
 
     @Test
-    public void doFilterInternalWithX509RealmNotPresent() throws Exception {
-        Objenesis objenesis = new ObjenesisStd();
-        ObjectInstantiator X509DnAuthenticatingRealmInstantiator = objenesis.getInstantiatorOf(X509DnAuthenticatingRealm.class);
-        X509DnAuthenticatingRealm x509DnAuthenticatingRealm = (X509DnAuthenticatingRealm) X509DnAuthenticatingRealmInstantiator.newInstance();
-        FilterChain filterChain = mock(FilterChain.class);
-        when(realmSecurityManager.getRealms()).thenReturn(Lists.newArrayList(x509DnAuthenticatingRealm));
-        ExtendedX509AuthenticationFilter child = PowerMockito.spy(extendedX509AuthenticationFilter);
-        PowerMockito.doNothing().when(child, "skipThisFilterAndContinueOnChain", eq(mockHttpServletRequest), eq(mockHttpServletResponse), eq(filterChain));
-        child.doFilterInternal(mockHttpServletRequest, mockHttpServletResponse, filterChain);
-        PowerMockito.verifyPrivate(child).invoke("skipThisFilterAndContinueOnChain" , mockHttpServletRequest, mockHttpServletResponse, filterChain);
-    }
-
-    @Test
     public void doFilterInternalWithX509RealmPresent() throws Exception {
         Objenesis objenesis = new ObjenesisStd();
-        ObjectInstantiator X509DnAuthenticatingRealmInstantiator = objenesis.getInstantiatorOf(X509DnAuthenticatingRealm.class);
-        X509DnAuthenticatingRealm x509DnAuthenticatingRealm = (X509DnAuthenticatingRealm) X509DnAuthenticatingRealmInstantiator.newInstance();
+        ObjectInstantiator x509DnAuthenticatingRealmInstantiator = objenesis.getInstantiatorOf(X509DnAuthenticatingRealm.class);
+        X509DnAuthenticatingRealm x509DnAuthenticatingRealm = (X509DnAuthenticatingRealm) x509DnAuthenticatingRealmInstantiator.newInstance();
         FilterChain filterChain = mock(FilterChain.class);
         when(realmSecurityManager.getRealms()).thenReturn(Lists.newArrayList(x509DnAuthenticatingRealm));
         ExtendedX509AuthenticationFilter child = PowerMockito.spy(extendedX509AuthenticationFilter);
         PowerMockito.doNothing().when(child, "filterInternalForX509Realm", eq(mockHttpServletRequest), eq(mockHttpServletResponse), eq(filterChain));
         child.doFilterInternal(mockHttpServletRequest, mockHttpServletResponse, filterChain);
         PowerMockito.verifyPrivate(child).invoke("filterInternalForX509Realm" , mockHttpServletRequest, mockHttpServletResponse, filterChain);
+    }
+
+    @Test
+    public void doFilterInternalWithX509RealmNotPresent() throws Exception {
+        Objenesis objenesis = new ObjenesisStd();
+        ObjectInstantiator testestAuthorizingRealmInstantiator = objenesis.getInstantiatorOf(TestAuthorizingRealm.class);
+        TestAuthorizingRealm testAuthorizingRealm = (TestAuthorizingRealm) testestAuthorizingRealmInstantiator.newInstance();
+        FilterChain filterChain = mock(FilterChain.class);
+        when(realmSecurityManager.getRealms()).thenReturn(Lists.newArrayList(testAuthorizingRealm));
+        ExtendedX509AuthenticationFilter child = PowerMockito.spy(extendedX509AuthenticationFilter);
+        PowerMockito.doNothing().when(child, "skipThisFilterAndContinueOnChain", eq(mockHttpServletRequest), eq(mockHttpServletResponse), eq(filterChain));
+        child.doFilterInternal(mockHttpServletRequest, mockHttpServletResponse, filterChain);
+        PowerMockito.verifyPrivate(child).invoke("skipThisFilterAndContinueOnChain" , mockHttpServletRequest, mockHttpServletResponse, filterChain);
     }
 
 

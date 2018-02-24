@@ -2,11 +2,11 @@ package com.github.vincentrussell.nexus3.x509.dn.security.plugin.servlet;
 
 import com.github.vincentrussell.nexus3.x509.dn.security.plugin.X509DnAuthenticatingRealm;
 import com.github.vincentrussell.nexus3.x509.dn.security.plugin.api.ExtendedX509AuthenticationToken;
-import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.mgt.RealmSecurityManager;
+import org.apache.shiro.realm.Realm;
 import org.apache.shiro.web.filter.authc.X509AuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,6 @@ import javax.servlet.ServletResponse;
 import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.List;
 
 
 @Named
@@ -68,14 +67,14 @@ public class ExtendedX509AuthenticationFilter extends X509AuthenticationFilter {
     @Override
     public void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        List<Class> realmClasses = Lists.newArrayList(Iterables.transform(this.realmSecurityManager.getRealms(), new Function<Object, Class>() {
-            @Override
-            public Class apply(Object input) {
-                return input.getClass();
-            }
-        }));
 
-        if (realmClasses.contains(X509DnAuthenticatingRealm.class)) {
+        final Realm foundRealm = Iterables.getFirst(Iterables.filter(this.realmSecurityManager.getRealms(), new Predicate<Realm>() {
+            @Override
+            public boolean apply(Realm input) {
+                return X509DnAuthenticatingRealm.class.isAssignableFrom(input.getClass());
+            }}),null);
+
+        if (foundRealm != null) {
             filterInternalForX509Realm(request, response, chain);
         } else {
             skipThisFilterAndContinueOnChain(request, response, chain);
