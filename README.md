@@ -75,8 +75,12 @@ You can build a ready to run docker image using the [`Dockerfile`](Dockerfile) t
 The whole project is heavily influenced by the [nexus3-github-oauth-plugin](https://github.com/larscheid-schmitzhermes/nexus3-github-oauth-plugin).
 
 
-
 # Change Log
+
+## [1.1](https://github.com/vincentrussell/nexus3-x509-dn-security-plugin/tree/nexus3-x509-dn-security-plugin-1.1) (2018-04-02)
+
+
+- expire cached auths after five mintues so that the server doesn't have to be restarted to respect changes to the config file
 
 
 ## [1.0](https://github.com/vincentrussell/nexus3-x509-dn-security-plugin/tree/nexus3-x509-dn-security-plugin-1.0) (2018-02-19)
