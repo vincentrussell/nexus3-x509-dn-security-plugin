@@ -37,9 +37,9 @@ The following lines will:
 
 ```shell
 mkdir -p /opt/sonatype/nexus/system/com/github/vincentrussell/ &&\
-wget -O /opt/sonatype/nexus/system/com/github/vincentrussell/nexus3-x509-dn-security-plugin.zip https://github.com/vincentrussell/nexus3-x509-dn-security-plugin/releases/download/1.0/nexus3-x509-dn-security-plugin.zip &&\
+wget -O /opt/sonatype/nexus/system/com/github/vincentrussell/nexus3-x509-dn-security-plugin.zip https://github.com/vincentrussell/nexus3-x509-dn-security-plugin/releases/download/1.1/nexus3-x509-dn-security-plugin.zip &&\
 unzip /opt/sonatype/nexus/system/com/github/vincentrussell/nexus3-x509-dn-security-plugin.zip -d /opt/sonatype/nexus/system/com/github/vincentrussell/ &&\
-echo "reference\:file\:com/github/vincentrussell/nexus3-x509-dn-security-plugin/1.0/nexus3-x509-dn-security-plugin-1.0.jar = 200" >> /opt/sonatype/nexus/etc/karaf/startup.properties
+echo "reference\:file\:com/github/vincentrussell/nexus3-x509-dn-security-plugin/1.1/nexus3-x509-dn-security-plugin-1.1.jar = 200" >> /opt/sonatype/nexus/etc/karaf/startup.properties
 ```
 
 #### 2. Create configuration mapping file
