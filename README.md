@@ -59,9 +59,18 @@ Log in to your nexus and go to _Administration > Security > Realms_. Move the X5
 
 
 ## Development
-You can build the project with the integrated maven wrapper like so: `./mvnw clean package`
 
-You can also build locally using Docker by running: 
+### Install software
+#### homebrew (mac)
+* brew install docker-machine
+* brew install docker
+* docker-machine create --driver virtualbox nexus3-x509-oath-plugin
+* docker-machine env nexus3-x509-oath-plugin
+* eval "$(docker-machine env nexus3-x509-oath-plugin)"
+
+You can build the project with the integrated maven wrapper like so: `./mvn clean package`
+
+### Build and Run the docker container ...
 
 ```
 docker build -t vincentrussell/nexus3-x509-oath-plugin .
